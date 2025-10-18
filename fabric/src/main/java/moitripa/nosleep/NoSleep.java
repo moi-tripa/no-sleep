@@ -1,18 +1,35 @@
 package moitripa.nosleep;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class NoSleep implements ModInitializer {
-    
+
+    public static final String MOD_ID = "nosleep";
+
     @Override
     public void onInitialize() {
-        
-        // This method is invoked by the Fabric mod loader when it is ready
-        // to load your mod. You can access Fabric and Common code in this
-        // project.
+        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            BlockPos pos = hitResult.getBlockPos();
+            BlockState state = world.getBlockState(pos);
 
-        // Use Fabric to bootstrap the Common mod.
-//        Constants.LOG.info("Hello Fabric world!");
-        CommonClass.init();
+            if (!world.isClientSide && player instanceof ServerPlayer serverPlayer) {
+                if (state.getBlock() instanceof BedBlock) {
+                    serverPlayer.setRespawnPosition(world.dimension(), pos, player.getYRot(), false, true);
+                    serverPlayer.displayClientMessage(Component.translatable("block.minecraft.bed.set_spawn"), true);
+                    player.displayClientMessage(Component.literal("You may not rest"), true);
+                    return InteractionResult.FAIL;
+                }
+            }
+
+            return InteractionResult.PASS;
+        });
+
     }
 }
