@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "mod_id",
+    "id": "nosleep",
     "version": "${version}",
     "name": "${mod_name}",
     "description": "${description}",
@@ -8,15 +8,15 @@
         "${mod_author}"
     ],
     "contact": {
-        "homepage": "https://fabricmc.net/",
-        "sources": "https://github.com/FabricMC/fabric-example-mod"
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/no-sleep",
+        "sources": "https://github.com/moi-tripa/no-sleep"
     },
     "license": "${license}",
-    "icon": "assets/modid/${mod_id}.png",
+    "icon": "assets/nosleep/${mod_id}.png",
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "moitripa.nosleep.NoSleep"
         ]
     },
     "mixins": [
